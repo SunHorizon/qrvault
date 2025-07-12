@@ -6,16 +6,15 @@ import Link from "next/link";
 
 
 export default function LoginPage(){
-     const [error, setError] = useState<string | null>(null)
+    const [error, setError] = useState<string | null>(null)
 
     async function handleLogin(formData: FormData) {
         const email = formData.get('email') as string;
         const password = formData.get("password") as string;
         try{
             await login(email, password);
-        }catch(error){
-            console.log(error);
-            // setError(error);
+        }catch(error: any){
+            setError(error.message);
         }
     }
     return (
@@ -56,7 +55,7 @@ export default function LoginPage(){
                 Log In
             </button>
 
-            {/* {error && <p className="text-red-500 text-sm mb-3">{error}</p>} */}
+            {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
 
             <p className="text-sm text-center text-gray-600">
                 Don't have an account?{' '}

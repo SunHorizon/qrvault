@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 
 export default function SignUpPage(){
     const [confirmationSent, setConfirmationSent] = useState(false);
+    const [error, setError] = useState<string | null>(null)
 
     async function handleSignUp(formData: FormData){
         const email = formData.get('email') as string;
@@ -13,8 +14,8 @@ export default function SignUpPage(){
         try{
             await signup(email, password);
             setConfirmationSent(true);
-        }catch(error){
-            console.log(error);
+        }catch(error: any){
+            setError(error.message);
         }
      
     }
@@ -62,10 +63,11 @@ export default function SignUpPage(){
                 >
                     Sign Up
                 </button>
+                
+                {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
                 </>
             )}
             </form>
         </div>
     );
-
 }
