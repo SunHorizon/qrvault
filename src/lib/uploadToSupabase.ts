@@ -1,7 +1,7 @@
 'use server'
 
 import { supabase } from './supabaseClient'
- import { PrismaClient } from '@/generated/prisma';
+import { PrismaClient } from '@/generated/prisma';
 
 
 

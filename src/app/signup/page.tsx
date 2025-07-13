@@ -59,7 +59,7 @@ export default function SignUpPage(){
                 </div>
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                    className="pt-2 pb-2 w-full bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                 >
                     Sign Up
                 </button>
