@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase-browser';
 import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useState } from 'react';
 import { fetchUserFiles } from './actions';
+import UploadCard from '@/app/components/UploadCard';
 
 
 export default function UploadsPage() {
@@ -85,19 +86,7 @@ export default function UploadsPage() {
       ): (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
             {files.map((file) => (
-              <div
-                key={file.id}
-                className='bg-white shadow rounded-lg p-4 flex flex-col items-center text-center'
-              >
-                <QRCodeSVG value={file.publicUrl} size={150} />
-                <h2 className='mt-4 font-semibold text-gray-800'>{file.name}</h2>
-                <p className='text-sm text-gray-800 mt-1'>
-                  Uploaded: {new Date(file.createdAt).toLocaleDateString()}
-                </p>
-                <a href={file.publicUrl} target="_blank" rel="noopener noreferrer" className="mt-3 text-blue-600 underline text-sm">
-                  Download File
-                </a>
-              </div>
+              <UploadCard key={file.id} file={file}/>
             ))}
         </div>
       )}
