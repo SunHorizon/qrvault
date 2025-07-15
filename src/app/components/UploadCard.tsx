@@ -7,13 +7,20 @@ import { toPng } from 'html-to-image';
 
 export default function UploadCard({
     file,
+    onView,
 }: {
     file: {
         id: string
         name: string
         publicUrl: string
         createdAt: string
-    }
+    };
+    onView: (file: {
+        id: string
+        name: string
+        publicUrl: string
+        createdAt: string
+    }) => void
 }){
     const qrRef = useRef<HTMLDivElement>(null);
 
@@ -68,7 +75,7 @@ export default function UploadCard({
                 Download File
             </a>
 
-            <div className="mt-4 flex gap-3">
+            <div className="mt-4 flex gap-3 flex-wrap justify-center">
                 <button 
                     onClick={handleDownload}
                     className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -81,6 +88,13 @@ export default function UploadCard({
                 >
                     Print QR
                 </button>
+                <button 
+                    onClick={() => onView(file)}
+                    className="px-3 py-1 text-sm bg-purple-600 text-white rounded hover:bg-purple-700"
+                >
+                    View
+                </button>
+
             </div>
         </div>
     )

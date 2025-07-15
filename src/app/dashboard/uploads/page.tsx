@@ -9,6 +9,7 @@ import UploadCard from '@/app/components/UploadCard';
 
 export default function UploadsPage() {
   const [userId, setUserId] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<any | null>(null);
 
   const [search, setSearch] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -46,6 +47,14 @@ export default function UploadsPage() {
   }, [userId, search, startDate, endDate, page])
 
 
+  const handleDownload = async () => {
+      const link = document.createElement('a');
+      link.download = `${selectedFile.name}-qr.png`;
+      link.href = selectedFile.publicUrl;
+      link.click();
+  }
+
+
   return (
     <div>
       <h1 className='text-2xl font-semibold mb-4 text-gray-800'>My Uploads</h1>
@@ -80,14 +89,36 @@ export default function UploadsPage() {
         />
       </div>
 
-     
+      {/* QR Grid */}
       {files.length === 0 ? (
         <p className='text-gray-500 mt-6'>No files Uploaded or match your filters.</p>
       ): (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
             {files.map((file) => (
-              <UploadCard key={file.id} file={file}/>
+              <UploadCard key={file.id} file={file} onView={setSelectedFile} />
             ))}
+        </div>
+      )}
+
+      {/* Overlay Modal */}
+      {selectedFile && (
+        <div className='fixed inset-0 bg-black opacity-100 z-50 flex justify-center items-center '>
+          <div className='bg-white rounded-lg shadow-lg p-8 relative w-full max-w-md text-center'>
+            <button 
+              className='absolute top-2 right-3 text-gray-600 hover:text-black text-xl'
+              onClick={() => setSelectedFile(null)}
+            >
+              &times;
+            </button>
+            <QRCodeSVG className="ml-auto mr-auto" value={selectedFile.publicUrl} size={150} />
+            <h2 className='mt-4 font-semibold text-gray-800 text-lg'>{selectedFile.name}</h2>
+             <p className='text-sm text-gray-800 mt-1'>
+                Uploaded: {new Date(selectedFile.createdAt).toLocaleDateString()}
+            </p>
+            <a href={selectedFile.publicUrl} target="_blank" rel="noopener noreferrer" className="mt-3 text-blue-600 underline text-sm">
+                Download File
+            </a>
+          </div>
         </div>
       )}
 
